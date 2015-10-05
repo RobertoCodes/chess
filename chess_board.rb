@@ -8,16 +8,16 @@ class Board
   def initialize
     @board = Array.new(8){Array.new(8)}
     @board[0].length.times do |i|
-      @board[0][i] = Piece.new("P", :black, [0,i], @board)
+      @board[0][i] = Knight.new(:black, [0,i], @board)
     end
     @board[1].length.times do |i|
-      @board[1][i] = Piece.new("P", :black, [1,i], @board)
+      @board[1][i] = Knight.new(:black, [1,i], @board)
     end
     @board[6].length.times do |i|
-      @board[6][i] = Piece.new("P", :white, [6,i], @board)
+      @board[6][i] = Knight.new(:white, [6,i], @board)
     end
     @board[7].length.times do |i|
-      @board[7][i] = Piece.new("P", :white, [7,i], @board)
+      @board[7][i] = Knight.new(:white, [7,i], @board)
     end
   end
 

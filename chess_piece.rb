@@ -3,23 +3,17 @@ class Piece
   attr_reader :name, :board, :color
   attr_accessor :pos
 
-  def initialize(name, color, pos, board)
+  def initialize(color, pos, board,name)
     @name = name
     @color = color
     @pos = pos
     @board = board
   end
 
-
-
 end
 
 
 class SlidingPiece < Piece
-
-  def initialize
-    super
-  end
 
   def moves
     possible_moves = []
@@ -29,12 +23,12 @@ class SlidingPiece < Piece
       while x.between?(0,7) && y.between?(0,7)
         x += move[0]
         y +=  move[1]
-        if x.between?(0,7) && y.between?(0,7) && !board.board[x,y].nil?
-          if self.color == board.board[x][y].color
-            break
+        if (x.between?(0,7) && y.between?(0,7)) && !self.board[x][y].nil?
+          if self.color == self.board[x][y].color
+            next
           else
             possible_moves << [x,y]
-            break
+            next
           end
         else
           possible_moves << [x,y] if x.between?(0,7) && y.between?(0,7)
@@ -46,16 +40,6 @@ class SlidingPiece < Piece
 end
 
 
-
-
-
-
-
-
-
-
-
-
 class SteppingPiece < Piece
 
   def moves
@@ -63,12 +47,11 @@ class SteppingPiece < Piece
     self.class::MOVES.each do |move|
       x = self.pos[0]
       y = self.pos[1]
-      while x.between?(0,7) && y.between?(0,7)
-          x += move[0]
-          y +=  move[1]
-          possible_moves << [x,y] if x.between?(0,7) && y.between?(0,7)
-      end
+      x += move[0]
+      y +=  move[1]
+      possible_moves << [x,y] if x.between?(0,7) && y.between?(0,7)
     end
+    
     possible_moves.select { |move| board[move[0]][move[1]].nil? ||
       board[move[0]][move[1]].color != self.color }
   end
@@ -76,12 +59,11 @@ class SteppingPiece < Piece
 end
 
 
-
 class Bishop < SlidingPiece
 
-  MOVES = [[1,1],[-1,1],[-1,-1],[1,-1]]
+  MOVES = [[-1,1],[1,1],[-1,-1],[1,-1]]
 
-  def initialize(name ="B", color, pos, board)
+  def initialize(color, pos, board, name ="B")
     super
   end
 
@@ -92,14 +74,41 @@ class Rook < SlidingPiece
 
   MOVES = [[1,0],[0,1],[-1,0],[0,-1]]
 
+  def initialize(color, pos, board, name ="R")
+    super
+  end
+
 end
 
 
 class Queen < SlidingPiece
+
+  MOVES = [[1,0],[0,1],[-1,0],[0,-1],[-1,1],[1,1],[-1,-1],[1,-1]]
+
+  def initialize(color, pos, board, name ="Q")
+    super
+  end
+
 end
 
+class King < SteppingPiece
+
+  MOVES = [[1,0],[0,1],[-1,0],[0,-1],[-1,1],[1,1],[-1,-1],[1,-1]]
+
+  def initialize(color, pos, board, name ="K")
+    super
+  end
+
+end
 
 class Knight < SteppingPiece
+
+  MOVES = [[1,2],[1,-2],[-1,2],[-1,-2],[2,1],[2,-1],[-2,1],[-2,-1]]
+
+  def initialize(color, pos, board, name ="N")
+    super
+  end
+
 end
 
 
