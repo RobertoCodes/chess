@@ -43,6 +43,8 @@ class Board
     piece = self[start]
     if piece.nil?
       raise "No piece brah"
+    elsif !piece.valid_moves.include?(end_pos) && self.checkmate?
+      raise "YOU'RE IN CHECKMATE LOSER"
     elsif !piece.valid_moves.include?(end_pos)
       raise "Can't go there brah"
     else
@@ -130,6 +132,10 @@ class Board
     # black_pieces.all? {|piece| piece.valid_moves.empty?} ||
     # white_pieces.all? {|piece| piece.valid_moves.empty?}
 
+  end
+
+  def in_bounds?(pos)
+    pos.all? { |x| x.between?(0, 7) }
   end
 
 
