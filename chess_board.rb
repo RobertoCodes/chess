@@ -51,6 +51,9 @@ class Board
       self[end_pos] = piece
       self[start] = nil
       piece.pos = end_pos
+        if piece.is_a?(Pawn)
+          piece.first_move = false
+        end
     end
   end
 
