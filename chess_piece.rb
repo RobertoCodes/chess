@@ -3,11 +3,24 @@ class Piece
   attr_reader :name, :board, :color
   attr_accessor :pos
 
-  def initialize(color, pos, board,name)
+  def initialize(color, pos, board, name)
     @name = name
     @color = color
     @pos = pos
     @board = board
+  end
+
+  def valid_moves
+    valid_moves = []
+
+    self.moves.each do |move|
+      test_board = board.deep_dup
+      test_board.test_move(self.pos,move)
+
+      valid_moves << move unless test_board.in_check?(self.color)
+    end
+
+    valid_moves
   end
 
 end
@@ -23,8 +36,8 @@ class SlidingPiece < Piece
       while x.between?(0,7) && y.between?(0,7)
         x += move[0]
         y +=  move[1]
-        if (x.between?(0,7) && y.between?(0,7)) && !self.board[x][y].nil?
-          if self.color == self.board[x][y].color
+        if (x.between?(0,7) && y.between?(0,7)) && !self.board.board[x][y].nil?
+          if self.color == self.board.board[x][y].color
             next
           else
             possible_moves << [x,y]
@@ -52,8 +65,8 @@ class SteppingPiece < Piece
       possible_moves << [x,y] if x.between?(0,7) && y.between?(0,7)
     end
 
-    possible_moves.select { |move| board[move[0]][move[1]].nil? ||
-      board[move[0]][move[1]].color != self.color }
+    possible_moves.select { |move| board.board[move[0]][move[1]].nil? ||
+      board.board[move[0]][move[1]].color != self.color }
   end
 
 end
@@ -129,19 +142,19 @@ class Pawn < Piece
       if self.color == :black
         x = self.pos[0]
         y = self.pos[1]
-        if first_move && board[x+2][y].nil?
+        if first_move && board.board[x+2][y].nil?
           possible_moves << [x+2,y]
         end
 
-        if board[x+1][y].nil?
+        if board.board[x+1][y].nil?
           possible_moves << [x+1,y]
         end
 
-        if !board[x+1][y-1].nil? && board[x+1][y-1].color == :white
+        if !board.board[x+1][y-1].nil? && board.board[x+1][y-1].color == :white
           possible_moves << [x+1,y-1]
         end
 
-        if !board[x+1][y+1].nil? && board[x+1][y+1].color == :white
+        if !board.board[x+1][y+1].nil? && board.board[x+1][y+1].color == :white
             possible_moves << [x+1,y-1]
         end
 
@@ -150,19 +163,19 @@ class Pawn < Piece
       if self.color == :white
         x = self.pos[0]
         y = self.pos[1]
-        if first_move && board[x-2][y].nil?
+        if first_move && board.board[x-2][y].nil?
           possible_moves << [x-2,y]
         end
 
-        if board[x-1][y].nil?
+        if board.board[x-1][y].nil?
           possible_moves << [x-1,y]
         end
 
-        if !board[x-1][y-1].nil? && board[x-1][y-1].color == :black
+        if !board.board[x-1][y-1].nil? && board.board[x-1][y-1].color == :black
           possible_moves << [x-1,y-1]
         end
 
-        if !board[x-1][y+1].nil? && board[x-1][y+1].color == :black
+        if !board.board[x-1][y+1].nil? && board.board[x-1][y+1].color == :black
             possible_moves << [x-1,y-1]
         end
 
