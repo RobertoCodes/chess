@@ -1,3 +1,5 @@
+require 'byebug'
+
 class Piece
 
   attr_reader :name, :board, :color
@@ -11,12 +13,12 @@ class Piece
   end
 
   def valid_moves
+
     valid_moves = []
 
     self.moves.each do |move|
       test_board = board.deep_dup
       test_board.test_move(self.pos,move)
-
       valid_moves << move unless test_board.in_check?(self.color)
     end
 
@@ -39,10 +41,10 @@ class SlidingPiece < Piece
         test_pos = [x,y]
         if (x.between?(0,7) && y.between?(0,7)) && !self.board[test_pos].nil?
           if self.color == self.board[test_pos].color
-            next
+            break
           else
             possible_moves << test_pos
-            next
+            break
           end
         else
           possible_moves << test_pos if x.between?(0,7) && y.between?(0,7)
@@ -67,8 +69,8 @@ class SteppingPiece < Piece
       possible_moves << [x,y] if x.between?(0,7) && y.between?(0,7)
     end
 
-    possible_moves.select { |move| board[test_pos].nil? ||
-      board[test_pos].color != self.color }
+    possible_moves.select { |move| board[move].nil? ||
+      board[move].color != self.color }
   end
 
 end
@@ -145,19 +147,19 @@ class Pawn < Piece
         x = self.pos[0]
         y = self.pos[1]
 
-        if first_move && board[x+2,y].nil?
+        if first_move && board[[x+2,y]].nil?
           possible_moves << [x+2,y]
         end
 
-        if board[x+1,y].nil?
+        if board[[x+1,y]].nil?
           possible_moves << [x+1,y]
         end
 
-        if !board[x+1,y-1].nil? && board[x+1,y-1].color == :white
+        if !board[[x+1,y-1]].nil? && board[[x+1,y-1]].color == :white
           possible_moves << [x+1,y-1]
         end
 
-        if !board[x+1,y+1].nil? && board[x+1,y+1].color == :white
+        if !board[[x+1,y+1]].nil? && board[[x+1,y+1]].color == :white
             possible_moves << [x+1,y-1]
         end
 
@@ -166,19 +168,19 @@ class Pawn < Piece
       if self.color == :white
         x = self.pos[0]
         y = self.pos[1]
-        if first_move && board[x-2,y].nil?
+        if first_move && board[[x-2,y]].nil?
           possible_moves << [x-2,y]
         end
 
-        if board[x-1,y].nil?
+        if board[[x-1,y]].nil?
           possible_moves << [x-1,y]
         end
 
-        if !board[x-1,y-1].nil? && board[x-1,y-1].color == :black
+        if !board[[x-1,y-1]].nil? && board[[x-1,y-1]].color == :black
           possible_moves << [x-1,y-1]
         end
 
-        if !board[x-1,y+1].nil? && board[x-1,y+1].color == :black
+        if !board[[x-1,y+1]].nil? && board[[x-1,y+1]].color == :black
             possible_moves << [x-1,y-1]
         end
 
