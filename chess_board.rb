@@ -31,24 +31,24 @@ class Board
   end
 
   def move(start,end_pos)
-    piece = board[start[0]][start[1]]
+    piece = self[start]
     if piece.nil?
       raise "No piece brah"
     elsif !piece.valid_moves.include?(end_pos)
       raise "Can't go there brah"
     else
-      board[end_pos[0]][end_pos[1]] = piece
-      board[start[0]][start[1]] = nil
+      self[end_pos] = piece
+      self[start] = nil
     end
   end
 
   def test_move(start,end_pos)
-    piece = board[start[0]][start[1]]
+    piece = self[start]
     if piece.nil?
       raise "No piece brah"
     else
-      board[end_pos[0]][end_pos[1]] = piece
-      board[start[0]][start[1]] = nil
+      self[end_pos] = piece
+      self[start] = nil
     end
   end
 
@@ -93,14 +93,14 @@ class Board
   end
 
 
-  # def [](array)
-  #   row, col = array
-  #   board[row][col]
-  # end
-  #
-  # def []=(array, val)
-  #   row, col = array
-  #   board[row][col] = val
-  # end
+  def [](array)
+    row, col = array
+    board[row][col]
+  end
+
+  def []=(array, val)
+    row, col = array
+    board[row][col] = val
+  end
 
 end
