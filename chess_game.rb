@@ -1,6 +1,7 @@
 require_relative 'chess_board.rb'
 require_relative 'chess_piece.rb'
 require_relative 'chess_display.rb'
+require_relative 'chess_game.rb'
 
 class Game
 
@@ -13,14 +14,18 @@ class Game
   end
 
   def play
-    # Game.new
     until board.checkmate?
       take_turn
       next_player
       @display.render
     end
 
-    puts "CHECKMATE."
+    next_player
+
+    system("clear")
+    @display.render
+
+    puts "CHECKMATE. #{current_player} wins!"
 
   end
 
@@ -33,8 +38,8 @@ class Game
       until begin_sq
         system("clear")
 
-        print "White player, " if current_player == :white
-        print "Black player, " if current_player == :black
+        print "White, " if current_player == :white
+        print "Black, " if current_player == :black
         print "use the cursor to select a start position and hit enter."
         puts
 
@@ -46,8 +51,8 @@ class Game
       until end_sq
         system("clear")
 
-        print "White player, " if current_player == :white
-        print "Black player, " if current_player == :black
+        print "White, " if current_player == :white
+        print "Black, " if current_player == :black
         print "use the cursor to select an end position and hit enter."
         puts
 
@@ -63,7 +68,7 @@ class Game
       end
     rescue RuntimeError, ArgumentError => e
       puts "Not a valid move, friend."
-      sleep(3)
+      sleep(2)
       retry
     end
 

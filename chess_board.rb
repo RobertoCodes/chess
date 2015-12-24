@@ -95,6 +95,14 @@ class Board
         end
       end
     end
+    board_dup.board.each do |row|
+      row.each do |sq|
+        if !sq.nil?
+          sq.board = board_dup
+        end
+      end
+    end
+
     board_dup
   end
 
@@ -102,12 +110,14 @@ class Board
   def in_check?(check_color)
 
     if check_color == :white
-      king_pos = (white_pieces.select { |white_piece| white_piece.name == "K" }).first.pos
+      king_pos = (white_pieces.select { |white_piece| white_piece.name ==
+        ["2654".hex].pack("U") }).first.pos
       black_pieces.each do |black_piece|
         return true if black_piece.moves.include?(king_pos)
       end
     else
-      king_pos = (black_pieces.select { |black_piece| black_piece.name == "K" }).first.pos
+      king_pos = (black_pieces.select { |black_piece| black_piece.name ==
+        ["265A".hex].pack("U") }).first.pos
       white_pieces.each do |white_piece|
         return true if white_piece.moves.include?(king_pos)
       end
@@ -122,14 +132,14 @@ class Board
       black_pieces.each do |black_piece|
         return false if !black_piece.valid_moves.empty?
       end
-      true
+      return true
     end
 
     if in_check?(:white)
       white_pieces.each do |white_piece|
         return false if !white_piece.valid_moves.empty?
       end
-      true
+      return true
     end
 
     # black_pieces.all? {|piece| piece.valid_moves.empty?} ||

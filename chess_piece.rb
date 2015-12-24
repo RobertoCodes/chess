@@ -1,9 +1,9 @@
-require 'byebug'
+       require 'byebug'
 
 class Piece
 
-  attr_reader :name, :board, :color
-  attr_accessor :pos
+  attr_reader :name, :color
+  attr_accessor :pos, :board
 
   def initialize(color, pos, board, name)
     @name = name
@@ -15,7 +15,6 @@ class Piece
   def valid_moves
 
     valid_moves = []
-
     self.moves.each do |move|
       test_board = board.deep_dup
       test_board.test_move(self.pos,move)
@@ -53,6 +52,7 @@ class SlidingPiece < Piece
     end
     possible_moves
   end
+
 end
 
 
@@ -80,8 +80,15 @@ class Bishop < SlidingPiece
 
   MOVES = [[-1,1],[1,1],[-1,-1],[1,-1]]
 
-  def initialize(color, pos, board, name ="B")
-    super
+  def initialize(color, pos, board)
+    if color == :black
+      name = ["265D".hex].pack("U")
+    else
+      name = ["2657".hex].pack("U")
+    end
+
+    super(color, pos, board, name)
+
   end
 
 end
@@ -91,8 +98,13 @@ class Rook < SlidingPiece
 
   MOVES = [[1,0],[0,1],[-1,0],[0,-1]]
 
-  def initialize(color, pos, board, name ="R")
-    super
+  def initialize(color, pos, board)
+    if color == :black
+      name = ["265C".hex].pack("U")
+    else
+      name = ["2656".hex].pack("U")
+    end
+    super(color, pos, board, name)
   end
 
 end
@@ -102,8 +114,13 @@ class Queen < SlidingPiece
 
   MOVES = [[1,0],[0,1],[-1,0],[0,-1],[-1,1],[1,1],[-1,-1],[1,-1]]
 
-  def initialize(color, pos, board, name ="Q")
-    super
+  def initialize(color, pos, board)
+    if color == :black
+      name = ["265B".hex].pack("U")
+    else
+      name = ["2655".hex].pack("U")
+    end
+    super(color, pos, board, name)
   end
 
 end
@@ -112,8 +129,15 @@ class King < SteppingPiece
 
   MOVES = [[1,0],[0,1],[-1,0],[0,-1],[-1,1],[1,1],[-1,-1],[1,-1]]
 
-  def initialize(color, pos, board, name ="K")
-    super
+  def initialize(color, pos, board)
+    if color == :black
+      name = ["265A".hex].pack("U")
+    else
+      name = ["2654".hex].pack("U")
+    end
+
+    super(color, pos, board, name)
+
   end
 
 end
@@ -123,7 +147,14 @@ class Knight < SteppingPiece
   MOVES = [[1,2],[1,-2],[-1,2],[-1,-2],[2,1],[2,-1],[-2,1],[-2,-1]]
 
   def initialize(color, pos, board, name ="N")
-    super
+    if color == :black
+      name = ["265E".hex].pack("U")
+    else
+      name = ["2658".hex].pack("U")
+    end
+
+    super(color, pos, board, name)
+
   end
 
 end
@@ -133,7 +164,13 @@ class Pawn < Piece
 
   attr_accessor :first_move
 
-  def initialize(color, pos, board, name = "P", first_move = true)
+  def initialize(color, pos, board, first_move = true)
+    if color == :black
+      name = ["265F".hex].pack("U")
+    else
+      name = ["2659".hex].pack("U")
+    end
+
     super(color, pos, board, name)
     @first_move = first_move
   end

@@ -38,17 +38,10 @@ class Display
     elsif (i + j).odd?
       bg = :white
     else
-      bg = :black
+      bg = :brown
     end
-    { background: bg, color: :blue }
+    { background: bg, color: :black }
   end
 
 
 end
-# a= Board.new
-# a.move([6,5],[5,5])
-# a.move([1,4],[3,4])
-# a.move([6,6],[4,6])
-# a.move([0,3],[4,7])
-#
-# Display.new(a).render
