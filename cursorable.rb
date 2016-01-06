@@ -1,4 +1,4 @@
-#cursorable
+	#cursorable
 
 require 'io/console'
 

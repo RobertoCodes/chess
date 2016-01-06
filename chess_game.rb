@@ -1,5 +1,5 @@
+require_relative "../Chess/Chess_Pieces/chess_pieces.rb"
 require_relative 'chess_board.rb'
-require_relative 'chess_piece.rb'
 require_relative 'chess_display.rb'
 require_relative 'chess_game.rb'
 

@@ -1,5 +1,4 @@
-require_relative 'chess_piece.rb'
-require 'byebug'
+require_relative "../Chess/Chess_Pieces/chess_pieces.rb"
 
 class Board
 
